@@ -1,0 +1,86 @@
+/* Header */
+header {
+    background-color:#34495e;
+    color:white;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Search Box */
+.search {
+    margin: 20px;
+    text-align: center;
+}
+
+.search input {
+    padding: 10px;
+    width: 250px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.search button {
+    padding: 10px 15px;
+    border: none;
+    background-color: #27ae60;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* PG Cards */
+.card {
+    background-color:white;
+    padding: 15px;
+    margin: 20px auto;
+    border-left: 5px solid #27ae60;
+    width: 300px;
+    border-radius: 5px;
+}
+
+/* Footer */
+footer {
+    background-color: #34495e;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.whatsapp {
+    background-color: #25D366;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}.featured {
+    border: 2px solid gold;
+    background-color: #fffbe6;
+}
+
+.badge {
+    background-color: gold;
+    color: black;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+.card {
+     display: flex;
+     flex-direction: column;
+}
+.featured {
+    order: -1;
+}
