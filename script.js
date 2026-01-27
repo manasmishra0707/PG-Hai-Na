@@ -5,33 +5,31 @@ let pgData = JSON.parse(localStorage.getItem("pgData")) || [];
 let users = JSON.parse(localStorage.getItem("users")) || [];
 let editIndex = null;
 
-function init() {
-    updateNav();
-}
+window.onload = () => {
+    show("login"); // default screen
+};
 
 // -----------------------------
-// Navigation
+// Section Navigation (CSS-based)
 // -----------------------------
-function show(id) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-}
+function show(sectionId) {
+    document.querySelectorAll(".section").forEach(section => {
+        section.classList.remove("active");
+    });
 
-function updateNav() {
-    let logged = localStorage.getItem("login") === "true";
-    document.getElementById("loginNav").style.display = logged ? "none" : "inline";
-    document.getElementById("registerNav").style.display = logged ? "none" : "inline";
-    document.getElementById("dashNav").style.display = logged ? "inline" : "none";
-    document.getElementById("logoutNav").style.display = logged ? "inline" : "none";
+    const target = document.getElementById(sectionId);
+    if (target) {
+        target.classList.add("active");
+    }
 }
 
 // -----------------------------
 // Register
 // -----------------------------
 function registerUser() {
-    let name = document.getElementById("registerName").value.trim();
-    let email = document.getElementById("registerEmail").value.trim();
-    let password = document.getElementById("registerPassword").value;
+    const name = document.getElementById("registerName").value.trim();
+    const email = document.getElementById("registerEmail").value.trim();
+    const password = document.getElementById("registerPassword").value;
 
     if (!name || !email || !password) {
         alert("Please fill all fields");
@@ -39,34 +37,38 @@ function registerUser() {
     }
 
     if (users.some(u => u.email === email)) {
-        alert("User already exists with this email");
+        alert("User already exists");
         return;
     }
 
     users.push({ name, email, password });
     localStorage.setItem("users", JSON.stringify(users));
-    alert("Registered Successfully!");
-    show('login');
+
+    alert("Registration successful!");
+    show("login");
 }
 
 // -----------------------------
 // Login
 // -----------------------------
 function login() {
-    let email = document.getElementById("loginEmail").value.trim();
-    let password = document.getElementById("loginPassword").value;
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
 
     if (!email || !password) {
         alert("Please fill all fields");
         return;
     }
 
-    let user = users.find(u => u.email === email && u.password === password);
+    const user = users.find(
+        u => u.email === email && u.password === password
+    );
+
     if (user) {
         localStorage.setItem("login", "true");
         localStorage.setItem("currentUser", email);
-        updateNav();
-        show('dashboard');
+        alert("Login successful!");
+        show("dashboard");
     } else {
         alert("Invalid email or password");
     }
@@ -78,40 +80,41 @@ function login() {
 function logout() {
     localStorage.removeItem("login");
     localStorage.removeItem("currentUser");
-    updateNav();
-    show('home');
+    show("login");
 }
 
 // -----------------------------
-// PG Functions
+// Add / Edit PG
 // -----------------------------
 function addPG() {
-    let name = document.getElementById("pgName").value;
-    let city = document.getElementById("pgCity").value;
-    let rent = document.getElementById("pgRent").value;
-    let type = document.getElementById("pgType").value;
-    let file = document.getElementById("pgImage").files[0];
+    const name = document.getElementById("pgName").value.trim();
+    const city = document.getElementById("pgCity").value.trim();
+    const rent = document.getElementById("pgRent").value;
+    const type = document.getElementById("pgType").value;
+    const file = document.getElementById("pgImage").files[0];
 
     if (!name || !city || !rent) {
         alert("Please fill all fields");
         return;
     }
 
-    const savePG = (imgData) => {
-        let pg = { name, city, rent, type, image: imgData };
+    const savePG = (image) => {
+        const pg = { name, city, rent, type, image };
+
         if (editIndex !== null) {
             pgData[editIndex] = pg;
             editIndex = null;
         } else {
             pgData.push(pg);
         }
+
         localStorage.setItem("pgData", JSON.stringify(pgData));
         clearPGForm();
         showPGList();
     };
 
     if (file) {
-        let reader = new FileReader();
+        const reader = new FileReader();
         reader.onload = () => savePG(reader.result);
         reader.readAsDataURL(file);
     } else if (editIndex !== null) {
@@ -119,15 +122,19 @@ function addPG() {
     }
 }
 
+// -----------------------------
+// Show PG List
+// -----------------------------
 function showPGList() {
-    show('pglist');
+    show("pglist");
     displayPGs();
 }
 
 function displayPGs() {
-    let cityFilter = document.getElementById("filterCity")?.value.toLowerCase() || "";
-    let typeFilter = document.getElementById("filterType")?.value || "";
-    let container = document.getElementById("pgContainer");
+    const cityFilter = document.getElementById("filterCity").value.toLowerCase();
+    const typeFilter = document.getElementById("filterType").value;
+    const container = document.getElementById("pgContainer");
+
     container.innerHTML = "";
 
     if (pgData.length === 0) {
@@ -135,41 +142,48 @@ function displayPGs() {
         return;
     }
 
-    pgData.forEach((pg, i) => {
+    pgData.forEach((pg, index) => {
         if (cityFilter && !pg.city.toLowerCase().includes(cityFilter)) return;
         if (typeFilter && pg.type !== typeFilter) return;
 
         container.innerHTML += `
-        <div class="pg-card">
-            <img src="${pg.image}" alt="${pg.name}">
-            <h3>${pg.name}</h3>
-            <p>City: ${pg.city}</p>
-            <p>₹${pg.rent} | ${pg.type}</p>
-            <button onclick="editPG(${i})">Edit</button>
-            <button onclick="deletePG(${i})">Delete</button>
-        </div>
+            <div class="card">
+                <img src="${pg.image}" alt="${pg.name}">
+                <h3>${pg.name}</h3>
+                <p>City: ${pg.city}</p>
+                <p>₹${pg.rent} / ${pg.type}</p>
+                <button onclick="editPG(${index})">Edit</button>
+                <button onclick="deletePG(${index})">Delete</button>
+            </div>
         `;
     });
 }
 
+// -----------------------------
+// Edit / Delete PG
+// -----------------------------
 function editPG(index) {
-    let pg = pgData[index];
+    const pg = pgData[index];
     document.getElementById("pgName").value = pg.name;
     document.getElementById("pgCity").value = pg.city;
     document.getElementById("pgRent").value = pg.rent;
     document.getElementById("pgType").value = pg.type;
+
     editIndex = index;
     show("addpg");
 }
 
 function deletePG(index) {
-    if (confirm("Are you sure you want to delete this PG?")) {
+    if (confirm("Delete this PG?")) {
         pgData.splice(index, 1);
         localStorage.setItem("pgData", JSON.stringify(pgData));
         displayPGs();
     }
 }
 
+// -----------------------------
+// Clear Form
+// -----------------------------
 function clearPGForm() {
     document.getElementById("pgName").value = "";
     document.getElementById("pgCity").value = "";
