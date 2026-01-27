@@ -2,87 +2,138 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PG Hai Na</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body onload="init()">
 
-<header>
-    <div>🏠 <b>PG Hai Na</b></div>
-    <nav>
-        <a onclick="show('home')" id="homeNav">Home</a>
-        <a onclick="show('login')" id="loginNav">Login</a>
-        <a onclick="show('register')" id="registerNav">Register</a>
-        <a onclick="show('dashboard')" id="dashNav" style="display:none;">Dashboard</a>
-        <a onclick="logout()" id="logoutNav" style="display:none;">Logout</a>
-    </nav>
-</header>
-
-<!-- Home -->
-<div id="home" class="section active">
-    <h1>Rent • Share • Live</h1>
-    <p>Find or Share PG Easily</p>
-</div>
-
-<!-- Login -->
-<div id="login" class="section">
-    <div class="form-box">
-        <h2>Login</h2>
-        <input id="loginEmail" placeholder="Email">
-        <input id="loginPassword" type="password" placeholder="Password">
-        <button onclick="login()">Login</button>
+<body>
+    <header class="main-header">
+        <h1>PG Hai Na</h1>
+    
+        <nav class="header-actions">
+            <button onclick="show('login')" class="login-btn">Login</button>
+            <button onclick="show('register')" class="register-btn">Register</button>
+        </nav>
+    </header>
+ 
+    <!-- Login -->
+    <div id="login" class="section">
+        <div class="form-box">
+            <h2>Login</h2>
+            <input id="loginEmail" type="email" placeholder="Email">
+            <input id="loginPassword" type="password" placeholder="Password">
+            <button onclick="login()">Login</button>
+        </div>
     </div>
-</div>
 
-<!-- Register -->
-<div id="register" class="section">
-    <div class="form-box">
-        <h2>Register</h2>
-        <input id="registerName" placeholder="Name">
-        <input id="registerEmail" placeholder="Email">
-        <input id="registerPassword" type="password" placeholder="Password">
-        <button onclick="registerUser()">Register</button>
+    <!-- Register -->
+    <div id="register" class="section">
+        <div class="form-box">
+            <h2>Register</h2>
+            <input id="registerName" placeholder="Name">
+            <input id="registerEmail" type="email" placeholder="Email">
+            <input id="registerPassword" type="password" placeholder="Password">
+            <button onclick="registerUser()">Register</button>
+        </div>
     </div>
-</div>
 
-<!-- Dashboard -->
-<div id="dashboard" class="section">
-    <h2>Dashboard</h2>
-    <div class="card" onclick="show('addpg')">🏠 Rent pe PG do</div>
-    <div class="card" onclick="showPGList()">🔍 Rent pe PG lo</div>
-</div>
+    <!-- Search Box -->
+    <section class="search">
+        <input type="text" id="searchInput" placeholder="Enter city or PG name">
+        <button onclick="searchPG()">Search</button>
+    </section>
 
-<!-- Add/Edit PG -->
-<div id="addpg" class="section">
-    <div class="form-box">
-        <h2>Add / Edit PG</h2>
-        <input id="pgName" placeholder="PG Name">
-        <input id="pgCity" placeholder="City">
-        <input id="pgRent" type="number" placeholder="Rent">
-        <select id="pgType">
-            <option value="Full">Full Rent</option>
-            <option value="Shared">Shared PG</option>
-        </select>
-        <input type="file" id="pgImage" accept="image/*">
-        <button onclick="addPG()">Save PG</button>
+    <!-- PG List (Dynamic) -->
+    <div id="pglist" class="section">
+        <h2>Available PGs</h2>
+
+        <div class="filters">
+            <input id="filterCity" placeholder="Filter by city" oninput="displayPGs()">
+            <select id="filterType" onchange="displayPGs()">
+                <option value="">All</option>
+                <option value="Full">Full Rent</option>
+                <option value="Shared">Shared</option>
+            </select>
+        </div>
+
+        <div id="pgContainer" class="pg-container"></div>
     </div>
-</div>
 
-<!-- PG List -->
-<div id="pglist" class="section">
-    <h2>Available PGs</h2>
-    <div class="filters">
-        <input id="filterCity" placeholder="Filter by city" oninput="displayPGs()">
-        <select id="filterType" onchange="displayPGs()">
-            <option value="">All</option>
-            <option value="Full">Full Rent</option>
-            <option value="Shared">Shared</option>
-        </select>
+    <!-- PG Listings (Static) -->
+    <section class="listings">
+
+        <div class="card featured">
+            <span class="badge">Featured</span>
+            <img src="images/pg1.jpg" alt="PG image">
+            <h3>Shree PG</h3>
+            <p>City: Delhi</p>
+            <p>Rent: ₹8000/month</p>
+            <p>Facilities: Food, WiFi</p>
+            <a href="https://wa.me/9369288462" target="_blank">
+                <button class="whatsapp">WhatsApp</button>
+            </a>
+        </div>
+
+        <div class="card featured">
+            <span class="badge">Featured</span>
+            <img src="images/pg3.jpg" alt="PG image">
+            <h3>Rudra PG</h3>
+            <p>City: Noida</p>
+            <p>Rent: ₹8000/month</p>
+            <p>Facilities: WiFi</p>
+            <a href="https://wa.me/9369288462" target="_blank">
+                <button class="whatsapp">WhatsApp</button>
+            </a>
+        </div>
+
+        <div class="card">
+            <img src="images/pg2.jpg" alt="PG image">
+            <h3>Student Hostel</h3>
+            <p>City: Sector 52 Noida</p>
+            <p>Rent: ₹6000/month</p>
+            <p>Facilities: WiFi, Laundry</p>
+            <a href="https://wa.me/9369288462" target="_blank">
+                <button class="whatsapp">WhatsApp</button>
+            </a>
+        </div>
+
+        <div class="card">
+            <img src="images/pg4.jpg" alt="PG image">
+            <h3>Best PG</h3>
+            <p>City: Alpha 2 Greater Noida</p>
+            <p>Rent: ₹9000/month</p>
+            <p>Facilities: WiFi</p>
+            <a href="https://wa.me/9369288462" target="_blank">
+                <button class="whatsapp">WhatsApp</button>
+            </a>
+        </div>
+
+    </section>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="section">
+        <h2>Dashboard</h2>
+        <div class="card" onclick="show('addpg')">🏠 Rent pe PG do</div>
+        <div class="card" onclick="showPGList()">🔍 Rent pe PG lo</div>
     </div>
-    <div id="pgContainer" class="pg-container"></div>
-</div>
 
-<script src="script.js"></script>
+    <!-- Add / Edit PG -->
+    <div id="addpg" class="section">
+        <div class="form-box">
+            <h2>Add / Edit PG</h2>
+            <input id="pgName" placeholder="PG Name">
+            <input id="pgCity" placeholder="City">
+            <input id="pgRent" type="number" placeholder="Rent">
+            <select id="pgType">
+                <option value="Full">Full Rent</option>
+                <option value="Shared">Shared PG</option>
+            </select>
+            <input type="file" id="pgImage" accept="image/*">
+            <button onclick="addPG()">Save PG</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
 </body>
 </html>
