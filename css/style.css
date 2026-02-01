@@ -1,86 +1,232 @@
-/* Header */
-header {
-    background-color:#34495e;
-    color:white;
-    text-align: center;
-    padding: 20px;
+/* Reset & Global Styles */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Search Box */
-.search {
-    margin: 20px;
-    text-align: center;
+body{
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f4f6f9;
+    color: #333;
 }
 
-.search input {
-    padding: 10px;
-    width: 250px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+/* ================= HEADER ================= */
+header{
+    background: linear-gradient(135deg, #166e30, #b3a4ca);
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.search button {
-    padding: 10px 15px;
+header h1{
+    font-size: 26px;
+}
+
+/* Header buttons (Login / Register) */
+.header-actions button{
+    margin-left: 12px;
+    padding: 8px 16px;
+    border-radius: 6px;
     border: none;
-    background-color: #27ae60;
-    color: white;
-    border-radius: 5px;
     cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
 }
 
-/* PG Cards */
-.card {
-    background-color:white;
-    padding: 15px;
-    margin: 20px auto;
-    border-left: 5px solid #27ae60;
-    width: 300px;
-    border-radius: 5px;
-}
-
-/* Footer */
-footer {
-    background-color: #34495e;
+.login-btn{
+    background: #27ae60;
     color: white;
-    text-align: center;
-    padding: 10px;
 }
-.card img {
+
+.register-btn{
+    background: #2980b9;
+    color: white;
+}
+
+.login-btn:hover,
+.register-btn:hover{
+    opacity: 0.85;
+}
+
+/* ================= SECTIONS ================= */
+.section{
+    display: none;
+    padding: 40px 20px;
+}
+
+.section.active{
+    display: block;
+}
+
+/* ================= FORMS ================= */
+.form-box{
+    background: white;
+    width: 320px;
+    max-width: 90%;
+    margin: 40px auto;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.form-box h2{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+input, select{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+input:focus, select:focus{
+    outline: none;
+    border-color: #0d6efd;
+}
+
+button{
+    width: 100%;
+    padding: 10px;
+    background: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover{
+    background: #084298;
+}
+
+/* ================= LISTINGS ================= */
+.listings{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 30px 15px;
+}
+
+/* ================= CARDS ================= */
+.card{
+    background: white;
+    width: 280px;
+    padding: 18px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.card:hover{
+    transform: translateY(-5px);
+}
+
+/* Featured badge */
+.featured{
+    position: relative;
+    border: 2px solid #f1c40f;
+}
+
+.badge{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #f1c40f;
+    color: black;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+pg.card image
+/* Card Image */
+.card img{
     width: 100%;
     height: 180px;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 6px;
     margin-bottom: 10px;
 }
 
-.whatsapp {
-    background-color: #25D366;
-    color: white;
-    border: none;
-    padding: 10px;
-    width: 100%;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-}.featured {
-    border: 2px solid gold;
-    background-color: #fffbe6;
+/* Card Text */
+.card h3{
+    color: #0d6efd;
+    margin-bottom: 6px;
 }
 
-.badge {
-    background-color: gold;
-    color: black;
-    padding: 5px 10px;
+.card p{
     font-size: 14px;
-    font-weight: bold;
-    border-radius: 3px;
-    display: inline-block;
-    margin-bottom: 10px;
+    margin: 4px 0;
+    color: #555;
 }
-.card {
-     display: flex;
-     flex-direction: column;
+
+/* WhatsApp Button */
+.whatsapp{
+    margin-top: 10px;
+    background: #25D366;
+    border-radius: 5px;
+    font-size: 14px;
 }
-.featured {
-    order: -1;
+
+.whatsapp:hover{
+    background: #1ebe5d;
+}
+
+/* ================= FILTERS ================= */
+.filters{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.filters input,
+.filters select{
+    width: 150px;
+}
+
+/* ================= DASHBOARD ================= */
+#dashboard .card{
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:600px){
+    .card,
+    .form-box{
+        width: 90%;
+    }
+
+    header{
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .header-actions{
+        display: flex;
+        gap: 10px;
+    }
+
+    .filters{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .filters input,
+    .filters select{
+        width: 80%;
+    }
 }
