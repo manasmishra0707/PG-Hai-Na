@@ -5,8 +5,12 @@ let pgData = JSON.parse(localStorage.getItem("pgData")) || [];
 let users = JSON.parse(localStorage.getItem("users")) || [];
 let editIndex = null;
 
-window.onload = () => {
-    show("login"); // default screen
+window.onload = function () {
+    try {
+        show("login");
+    } catch (e) {
+        console.error("JS Error:", e);
+    }
 };
 
 // -----------------------------
@@ -92,14 +96,15 @@ function addPG() {
     const rent = document.getElementById("pgRent").value;
     const type = document.getElementById("pgType").value;
     const file = document.getElementById("pgImage").files[0];
-
+    const contact = document.getElementById("contact").value;
+    
     if (!name || !city || !rent) {
         alert("Please fill all fields");
         return;
     }
 
     const savePG = (image) => {
-        const pg = { name, city, rent, type, image };
+        const pg = { name, city, rent, type, image, contact };
 
         if (editIndex !== null) {
             pgData[editIndex] = pg;
@@ -190,4 +195,40 @@ function clearPGForm() {
     document.getElementById("pgRent").value = "";
     document.getElementById("pgType").value = "Full";
     document.getElementById("pgImage").value = "";
+}
+// -----------------------------
+// Search PG (by city or name)
+// -----------------------------
+function searchPG() {
+    const searchValue = document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    const container = document.getElementById("pgContainer");
+    container.innerHTML = "";
+
+    const filteredPGs = pgData.filter(pg =>
+        pg.name.toLowerCase().includes(searchValue) ||
+        pg.city.toLowerCase().includes(searchValue)
+    );
+
+    if (filteredPGs.length === 0) {
+        container.innerHTML = "<p>No PG found</p>";
+        show("pglist");
+        return;
+    }
+
+    show("pglist");
+
+    filteredPGs.forEach((pg, index) => {
+        container.innerHTML += `
+            <div class="card">
+                <img src="${pg.image}" alt="${pg.name}">
+                <h3>${pg.name}</h3>
+                <p>City: ${pg.city}</p>
+                <p>₹${pg.rent} / ${pg.type}</p>
+            </div>
+        `;
+    });
 }
